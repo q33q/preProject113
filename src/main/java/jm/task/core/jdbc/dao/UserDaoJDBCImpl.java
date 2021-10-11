@@ -20,7 +20,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
             statement.execute(sql);
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.printf("Проблема при подключении к БД: %s\n", e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -54,14 +54,9 @@ public class UserDaoJDBCImpl implements UserDao {
             prepareStatement.setString(2, lastName);
             prepareStatement.setInt(3, age);
 
-            int isSaved = prepareStatement.executeUpdate();
-            if (isSaved != 1) {
-                System.out.printf("Пользователь [%s %s %s] не добавлен в БД\n", name, lastName, age);
-            } else {
-                System.out.printf("User с именем – %s добавлен в базу данных \n", name);
-            }
+            prepareStatement.execute();
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.printf("Проблема при подключении к БД: %s\n", e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -76,7 +71,7 @@ public class UserDaoJDBCImpl implements UserDao {
             prepareStatement.setLong(1, id);
             prepareStatement.execute();
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.printf("Проблема при подключении к БД: %s\n", e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -97,7 +92,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 users.add(user);
             }
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.printf("Проблема при подключении к БД: %s\n", e.getMessage());
+            e.printStackTrace();
         }
 
         return users;

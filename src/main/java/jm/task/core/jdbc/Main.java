@@ -14,7 +14,9 @@ public class Main {
         userService.createUsersTable();
 
         for (int i = 0; i < 4; i++) {
-            userService.saveUser("Jon" + i, "Doe" + i, (byte) (i + 20));
+            String name = "Jon" + i;
+            userService.saveUser(name, "Doe" + i, (byte) (i + 20));
+            System.out.printf("User с именем – %s добавлен в базу данных \n", name);
         }
 
         List<User> users = userService.getAllUsers();
