@@ -8,15 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private final Util util = new Util();
-
     public UserDaoJDBCImpl() {
-
     }
 
     private void executeStatement(String sql) {
-        try (Connection connection = util.getConnection();
-             Statement statement = util.getStatement(connection)) {
+        try (Connection connection = Util.getConnection();
+             Statement statement = Util.getStatement(connection)) {
 
             statement.execute(sql);
         } catch (SQLException | ClassNotFoundException e) {
@@ -46,8 +43,8 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql = "INSERT INTO users (name, lastName, age)\n" +
                 "VALUES (?, ?, ?)";
 
-        try (Connection connection = util.getConnection();
-             Statement statement = util.getStatement(connection);
+        try (Connection connection = Util.getConnection();
+             Statement statement = Util.getStatement(connection);
              PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
 
             prepareStatement.setString(1, name);
@@ -64,8 +61,8 @@ public class UserDaoJDBCImpl implements UserDao {
     public void removeUserById(long id) {
         String sql = "DELETE FROM users WHERE id = ?";
 
-        try (Connection connection = util.getConnection();
-             Statement statement = util.getStatement(connection);
+        try (Connection connection = Util.getConnection();
+             Statement statement = Util.getStatement(connection);
              PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
 
             prepareStatement.setLong(1, id);
@@ -79,8 +76,8 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
 
-        try (Connection connection = util.getConnection();
-             Statement statement = util.getStatement(connection);
+        try (Connection connection = Util.getConnection();
+             Statement statement = Util.getStatement(connection);
              ResultSet resultSet = statement.executeQuery("SELECT * FROM users")) {
 
             while (resultSet.next()) {
