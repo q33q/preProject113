@@ -4,15 +4,13 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-
+    private static final SessionFactory sessionFactory = Util.getInstance().getSessionFactory();
 
     public UserDaoHibernateImpl() {
 
@@ -28,7 +26,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 "    age      TINYINT UNSIGNED                        NOT NULL" +
                 ")";
 
-        Session session = Util.sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         try {
             session.beginTransaction();
 
@@ -43,7 +41,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        Session session = Util.getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         try {
             session.beginTransaction();
 
@@ -58,7 +56,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        Session session = Util.getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         try {
             session.beginTransaction();
 
@@ -73,7 +71,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        Session session = Util.getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         try {
             session.beginTransaction();
 
@@ -92,16 +90,11 @@ public class UserDaoHibernateImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> users;
 
-        Session session = Util.getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         try {
             session.beginTransaction();
 
-            CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<User> cq = cb.createQuery(User.class);
-            Root<User> root = cq.from(User.class);
-            cq.select(root);
-
-            Query<User> query = session.createQuery(cq);
+            Query query = session.createQuery("FROM users");
             users = query.getResultList();
 
             session.getTransaction().commit();
@@ -114,11 +107,11 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        Session session = Util.getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         try {
             session.beginTransaction();
 
-            Query query = session.createQuery("DELETE FROM users");
+            Query query = session.createSQLQuery("TRUNCATE TABLE users");
             query.executeUpdate();
 
             session.getTransaction().commit();

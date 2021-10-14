@@ -12,11 +12,26 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Util {
-    public static SessionFactory sessionFactory = getSessionFactory();
+    private static volatile Util instance = null;
+    private static SessionFactory sessionFactory;
     private final static String PARAMETER = "?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private final static String URL = "jdbc:mysql://127.0.0.1:3306/db_pp113" + PARAMETER;
     private final static String USERNAME = "root";
     private final static String PASSWORD = "root";
+
+    private Util() {
+    }
+
+    public static Util getInstance() {
+        if (instance == null) {
+            synchronized (Util.class) {
+                if (instance == null) {
+                    instance = new Util();
+                }
+            }
+        }
+        return instance;
+    }
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
