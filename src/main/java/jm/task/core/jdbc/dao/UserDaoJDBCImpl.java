@@ -44,7 +44,6 @@ public class UserDaoJDBCImpl implements UserDao {
                 "VALUES (?, ?, ?)";
 
         try (Connection connection = Util.getConnection();
-             Statement statement = Util.getStatement(connection);
              PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
 
             prepareStatement.setString(1, name);
@@ -62,7 +61,6 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql = "DELETE FROM users WHERE id = ?";
 
         try (Connection connection = Util.getConnection();
-             Statement statement = Util.getStatement(connection);
              PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
 
             prepareStatement.setLong(1, id);
