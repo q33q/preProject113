@@ -3,6 +3,7 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -37,7 +38,13 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             throw e;
         } finally {
-            session.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (HibernateException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -54,7 +61,13 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             throw e;
         } finally {
-            session.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (HibernateException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -71,7 +84,13 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             throw e;
         } finally {
-            session.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (HibernateException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -90,7 +109,13 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             throw e;
         } finally {
-            session.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (HibernateException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -110,7 +135,13 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             throw e;
         } finally {
-            session.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (HibernateException e) {
+                e.printStackTrace();
+            }
         }
         return users;
     }
@@ -129,7 +160,13 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             throw e;
         } finally {
-            session.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch (HibernateException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
