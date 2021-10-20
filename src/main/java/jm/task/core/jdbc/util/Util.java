@@ -10,6 +10,7 @@ import org.hibernate.service.ServiceRegistry;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.Properties;
+import java.util.logging.Level;
 
 public class Util {
     private static volatile Util instance = null;
@@ -34,6 +35,7 @@ public class Util {
     }
 
     public static SessionFactory getSessionFactory() {
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
@@ -59,8 +61,9 @@ public class Util {
     }
 
     private static Properties getProperties() {
+
         Properties properties = new Properties();
-        properties.put("hibernate.current_session_context_class", "thread");
+//        properties.put("hibernate.current_session_context_class", "thread");
         properties.put("hibernate.connection.datasource", getMysqlDataSource());
         return properties;
     }
